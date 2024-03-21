@@ -181,8 +181,6 @@ namespace ScanProduct
             return values;
 
         }
-
-
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             if (videoSource != null && videoSource.IsRunning)
