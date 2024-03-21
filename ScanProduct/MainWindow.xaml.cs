@@ -355,7 +355,7 @@ namespace ScanProduct
                     var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
                     updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
                     var AddResponse = updateRequest.Execute();
-
+                    //ok
                 }              
             }
             catch (Exception ex)
