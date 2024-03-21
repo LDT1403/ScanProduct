@@ -27,6 +27,7 @@ namespace ScanProduct
             InitializeComponent();
             InitializeCamera();
         }
+        //ok
         // Khởi động camera
         private void InitializeCamera()
         {
