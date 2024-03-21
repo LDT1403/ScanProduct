@@ -17,6 +17,10 @@ using ScanProduct.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Google.Apis.Sheets.v4.Data;
+using Google.Apis.Sheets.v4;
+using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace ScanProduct
 {
@@ -212,6 +216,7 @@ namespace ScanProduct
 
         private async void btn_PayMono_Click(object sender, RoutedEventArgs e)
         {
+             AddOrder();
             string Phone = "0349470340";
             string Name = "Hoàng Chí Dương";
             string Email = "";
@@ -260,13 +265,17 @@ namespace ScanProduct
 
    
                 Button failButton = new Button();
-                failButton.Content = "Thất bại";
+                failButton.Content = "Hủy";
                 failButton.Width = 100; 
                 failButton.Margin = new Thickness(10, 0, 10, 0);
                 failButton.Click += (sender, e) =>
                 {
+                    AddPayment("fail");
                     qrCodeWindow.Close();
-                    MessageBox.Show("QR code quá thời gian. Vui lòng thanh toán lại !!!", "Error", MessageBoxButton.OK);
+                    Reset();
+                    listView.Items.Refresh();
+
+
                 };
                 Button successButton = new Button();
                 successButton.Content = "Thành công";
@@ -274,7 +283,11 @@ namespace ScanProduct
                 successButton.Margin = new Thickness(10, 0, 10, 0); 
                 successButton.Click += (sender, e) =>
                 {
-                    qrCodeWindow.Close(); 
+                    AddPayment("success");
+                    qrCodeWindow.Close();
+                    Reset();
+                    listView.Items.Refresh();
+
                 };
                 Grid.SetColumn(successButton, 1);
                 Grid.SetColumn(failButton, 0);
@@ -292,6 +305,99 @@ namespace ScanProduct
                 MessageBox.Show("Please enter a valid total price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+
+        }
+
+         private void AddOrder()
+         {
+            try
+            {
+                var service = _sheetService.API();
+                SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "Orders!A:C");
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
+                ValueRange getRespone = getRequest.Execute();
+                IList<IList<Object>> valuess = getRespone.Values;
+                var range = $"{"Orders"}!B" + (valuess.Count + 1) + ":C" + (valuess.Count + 1);
+                var valueRange = new ValueRange();
+                var date = DateTime.Now;
+                valueRange.Values = new List<IList<object>> { new List<object>() { date, TotalValue.Text } };
+                var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
+                updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                var AddResponse = updateRequest.Execute();
+                AddOrderDetail();
+
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
+        }
+
+        private void AddOrderDetail()
+        {
+            try
+            {
+                var listOrder=loadData("Orders").LastOrDefault();
+                var orderid = listOrder[0];
+                foreach(var item in productList)
+                {
+                    var service = _sheetService.API();
+                    SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "OrderDetail!A:D");
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
+                    ValueRange getRespone = getRequest.Execute();
+                    IList<IList<Object>> valuess = getRespone.Values;
+                    var range = $"{"OrderDetail"}!B" + (valuess.Count + 1) + ":D" + (valuess.Count + 1);
+                    var valueRange = new ValueRange();
+                    var date = DateTime.Now;
+                    valueRange.Values = new List<IList<object>> { new List<object>() { orderid, item.Price, item.ProductId } };
+                    var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
+                    updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                    var AddResponse = updateRequest.Execute();
+
+                }              
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        private void AddPayment(string status)
+        {
+            try
+            {
+                var listOrder = loadData("Orders").LastOrDefault();
+                var orderid = listOrder[0];
+               
+                    var service = _sheetService.API();
+                    SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "Payment!A:E");
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
+                    ValueRange getRespone = getRequest.Execute();
+                    IList<IList<Object>> valuess = getRespone.Values;
+                    var range = $"{"Payment"}!B" + (valuess.Count + 1) + ":E" + (valuess.Count + 1);
+                    var valueRange = new ValueRange();
+                    var date = DateTime.Now;
+                    valueRange.Values = new List<IList<object>> { new List<object>() { date,orderid,status,TotalValue.Text } };
+                    var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
+                    updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                    var AddResponse = updateRequest.Execute();
+
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+        private void Reset()
+        {
+            listView.Items.Remove(this);
+            TotalValue.Text = "";
+            inputTextBox.Text = "";
 
         }
     }
