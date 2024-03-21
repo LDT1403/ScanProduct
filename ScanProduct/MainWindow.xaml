@@ -23,7 +23,15 @@
         <TextBox x:Name="TotalValue" HorizontalAlignment="Left" Margin="106,583,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
         <Label Content="Total " HorizontalAlignment="Left" Margin="59,579,0,0" VerticalAlignment="Top"/>
         <Button x:Name="Btn_Done" Content="Done" HorizontalAlignment="Left" Margin="321,583,0,0" VerticalAlignment="Top" Width="61" Click="Btn_Done_Click"/>
-        <Button x:Name="btn_PayMono" Content="Thanh Toán MOMO" HorizontalAlignment="Left" Margin="511,582,0,0" VerticalAlignment="Top" Click="btn_PayMono_Click"/>
+        <Button x:Name="btn_PayMono" Content="Thanh Toán MOMO" HorizontalAlignment="Left" Margin="634,582,0,0" VerticalAlignment="Top" Click="btn_PayMono_Click" Visibility="Collapsed"/>
+
+
+        <ComboBox x:Name="paymentMethodComboBox" HorizontalAlignment="Left" Margin="420,583,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="PaymentMethodComboBox_SelectionChanged" SelectedIndex="0">
+            <ComboBoxItem Content="Chọn Thanh Toán" />
+            <ComboBoxItem Content="Momo" />
+            <ComboBoxItem Content="Cash" />
+        </ComboBox>
+
 
     </Grid>
 </Window>
