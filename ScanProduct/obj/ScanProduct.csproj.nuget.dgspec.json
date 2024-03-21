@@ -76,6 +76,10 @@
               "target": "Package",
               "version": "[2.2.1, )"
             },
+            "QRCoder": {
+              "target": "Package",
+              "version": "[1.4.3, )"
+            },
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[8.0.3, )"
