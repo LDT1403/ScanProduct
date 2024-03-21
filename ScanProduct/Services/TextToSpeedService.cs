@@ -15,7 +15,7 @@ namespace ScanProduct.Services
 
         public void SpeedGoogle(string text)
         {
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "service_account.json");
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "../../../service_account.json");
             var client = TextToSpeechClient.Create();
             var input = new SynthesisInput
             {
@@ -50,7 +50,7 @@ namespace ScanProduct.Services
                     System.Threading.Thread.Sleep(100);
                 }
             }
-            await Task.Delay(2000);
+            await Task.Delay(1000);
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ScanProduct.Interfaces;
 using ScanProduct.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ScanProduct
 {
@@ -25,12 +26,15 @@ namespace ScanProduct
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
         private bool isScanning = false;
+        int total = 0;
+        private ObservableCollection<Product> productList = new ObservableCollection<Product>();
         public MainWindow()
         {
             _textToSpeed = new TextToSpeedService();
             _sheetService = new SheetService();
             InitializeComponent();
             InitializeCamera();
+            listView.ItemsSource = productList;
         }
         //ok
         // Khởi động camera
@@ -92,7 +96,9 @@ namespace ScanProduct
                                 isScanning = true;
                                 inputTextBox.Text = barcodeText;
                                 await _textToSpeed.PlayMp3("../../../SoundScan.mp3");
-                                getProduct(barcodeText);
+                                var product = await getProduct(barcodeText);
+                                UpdateListViewWithProduct(product);
+                               // productList.Add(product);
                                 isScanning = false;
 
                             }
@@ -109,19 +115,58 @@ namespace ScanProduct
                 // Nếu quá trình quét đang diễn ra, không thực hiện gì cả
             }
         }
+        private async void UpdateListViewWithProduct(Product product)
+        {
+            
+            bool isProductExist = false;       
+            foreach (Product item in productList)
+            {
+              
+
+
+                if (item.ProductId == product.ProductId)
+                {
+                   
+                    int quan = int.Parse(item.Quantity) + 1 ;               
+                    item.Quantity = quan.ToString();
+                    isProductExist = true;
+                    break;
+                }
+            }
+            TotalUpdate();
+            listView.Items.Refresh();    
+            if (!isProductExist)
+            {
+                product.Quantity = "1";
+                productList.Add(product);
+                TotalUpdate();
+
+
+            }
+        }
+        private void TotalUpdate()
+        {
+            total = 0;
+            foreach (Product item in productList)
+            {
+                total += int.Parse(item.Price) * int.Parse(item.Quantity);
+            }
+            TotalValue.Text = total.ToString();
+        }
         public async Task<Product> getProduct(string productId)
         {
+            
             var listProduct = loadData("Product");
             var product = new Product();
 
             foreach (var Column in listProduct)
             {
+                
                 if (Column[0].ToString().Equals(productId))
                 {
-                    product.ProductId = (string)Column[0];
-                    product.Price = (string)Column[1];
-                    product.Productname = (string)Column[2];
-                    product.Quanity = (string)Column[3];
+                    product.ProductId = (string)Column[0];                    
+                    product.ProductName = (string)Column[1];
+                    product.Price = (string)Column[2];                 
                 }
 
             }
@@ -145,6 +190,17 @@ namespace ScanProduct
                 videoSource.Stop();
             }
             base.OnClosing(e);
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private  void Btn_Done_Click(object sender, RoutedEventArgs e)
+        {
+            string textToSpeak = TotalValue.Text;
+            _textToSpeed.SpeedGoogle("Tổng Hóa đơn của quý khách là" + textToSpeak + "Đồng");
         }
     }
 }

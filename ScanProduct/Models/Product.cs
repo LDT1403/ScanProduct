@@ -9,9 +9,9 @@ namespace ScanProduct.Models
     public class Product
     {
         public string ProductId { get; set; }
-        public string Productname { get; set; }
+        public string ProductName { get; set; }
         public string Price { get; set; }
-        public string Quanity { get; set; }
+        public string Quantity { get; set; }
 
     }
 }
