@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj": {}
+    "E:\\FPT University\\Spring 2024\\PRN221\\Project_FianlPRN\\ScanProduct\\ScanProduct.csproj": {}
   },
   "projects": {
-    "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj": {
+    "E:\\FPT University\\Spring 2024\\PRN221\\Project_FianlPRN\\ScanProduct\\ScanProduct.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj",
+        "projectUniqueName": "E:\\FPT University\\Spring 2024\\PRN221\\Project_FianlPRN\\ScanProduct\\ScanProduct.csproj",
         "projectName": "ScanProduct",
-        "projectPath": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj",
-        "packagesPath": "C:\\Users\\win\\.nuget\\packages\\",
-        "outputPath": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\obj\\",
+        "projectPath": "E:\\FPT University\\Spring 2024\\PRN221\\Project_FianlPRN\\ScanProduct\\ScanProduct.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\FPT University\\Spring 2024\\PRN221\\Project_FianlPRN\\ScanProduct\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\win\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -104,7 +104,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
