@@ -12,18 +12,23 @@ using ScanProduct.TextToSpeedGoogle;
 using ScanProduct.Services;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using ScanProduct.Interfaces;
+using ScanProduct.Models;
+using System.Collections.Generic;
 
 namespace ScanProduct
 {
     public partial class MainWindow : Window
     {
         private readonly ITextToSpeed _textToSpeed;
+        private readonly ISheetService _sheetService;
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
         private bool isScanning = false;
         public MainWindow()
         {
             _textToSpeed = new TextToSpeedService();
+            _sheetService = new SheetService();
             InitializeComponent();
             InitializeCamera();
         }
@@ -85,8 +90,8 @@ namespace ScanProduct
                             {
                                 isScanning = true;
                                 inputTextBox.Text = barcodeText;
-                                await _textToSpeed.PlayMp3("SourdScan.mp3");
-                                //_textToSpeed.SpeedGoogle("Tổng hóa đơn thanh toán của bạn là 200000 đồng");
+                                await _textToSpeed.PlayMp3("../../../SoundScan.mp3");
+                                getProduct(barcodeText);
                                 isScanning = false;
 
                             }
@@ -102,6 +107,33 @@ namespace ScanProduct
             {
                 // Nếu quá trình quét đang diễn ra, không thực hiện gì cả
             }
+        }
+        public async Task<Product> getProduct(string productId)
+        {
+            var listProduct = loadData("Product");
+            var product = new Product();
+
+            foreach (var Column in listProduct)
+            {
+                if (Column[0].ToString().Equals(productId))
+                {
+                    product.ProductId = (string)Column[0];
+                    product.Price = (string)Column[1];
+                    product.Productname = (string)Column[2];
+                    product.Quanity = (string)Column[3];
+                }
+
+            }
+            return product;
+        }
+
+        public IList<IList<object>> loadData(string tableId)
+        {
+
+            var service = _sheetService.API();
+            var values = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", $"{tableId}!A:F").Execute().Values;
+            return values;
+
         }
 
 
