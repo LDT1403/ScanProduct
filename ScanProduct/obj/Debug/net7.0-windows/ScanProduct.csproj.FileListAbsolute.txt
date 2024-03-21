@@ -130,3 +130,6 @@ E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7
 E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7.0-windows\ScanProduct.pdb
 E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7.0-windows\ScanProduct.genruntimeconfig.cache
 E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7.0-windows\ref\ScanProduct.dll
+E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\bin\Debug\net7.0-windows\QRCoder.dll
+E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7.0-windows\ScanMoMoQR.g.cs
+E:\FPT University\Spring 2024\PRN221\Project_FianlPRN\ScanProduct\obj\Debug\net7.0-windows\ScanMoMoQR.baml

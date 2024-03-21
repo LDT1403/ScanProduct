@@ -16,6 +16,7 @@ using ScanProduct.Interfaces;
 using ScanProduct.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace ScanProduct
 {
@@ -98,7 +99,7 @@ namespace ScanProduct
                                 await _textToSpeed.PlayMp3("../../../SoundScan.mp3");
                                 var product = await getProduct(barcodeText);
                                 UpdateListViewWithProduct(product);
-                               // productList.Add(product);
+                                // productList.Add(product);
                                 isScanning = false;
 
                             }
@@ -117,24 +118,24 @@ namespace ScanProduct
         }
         private async void UpdateListViewWithProduct(Product product)
         {
-            
-            bool isProductExist = false;       
+
+            bool isProductExist = false;
             foreach (Product item in productList)
             {
-              
+
 
 
                 if (item.ProductId == product.ProductId)
                 {
-                   
-                    int quan = int.Parse(item.Quantity) + 1 ;               
+
+                    int quan = int.Parse(item.Quantity) + 1;
                     item.Quantity = quan.ToString();
                     isProductExist = true;
                     break;
                 }
             }
             TotalUpdate();
-            listView.Items.Refresh();    
+            listView.Items.Refresh();
             if (!isProductExist)
             {
                 product.Quantity = "1";
@@ -155,18 +156,18 @@ namespace ScanProduct
         }
         public async Task<Product> getProduct(string productId)
         {
-            
+
             var listProduct = loadData("Product");
             var product = new Product();
 
             foreach (var Column in listProduct)
             {
-                
+
                 if (Column[0].ToString().Equals(productId))
                 {
-                    product.ProductId = (string)Column[0];                    
+                    product.ProductId = (string)Column[0];
                     product.ProductName = (string)Column[1];
-                    product.Price = (string)Column[2];                 
+                    product.Price = (string)Column[2];
                 }
 
             }
@@ -197,10 +198,103 @@ namespace ScanProduct
 
         }
 
-        private  void Btn_Done_Click(object sender, RoutedEventArgs e)
+        private void Btn_Done_Click(object sender, RoutedEventArgs e)
         {
             string textToSpeak = TotalValue.Text;
             _textToSpeed.SpeedGoogle("Tổng Hóa đơn của quý khách là" + textToSpeak + "Đồng");
+        }
+
+        private bool ProcessPayment()
+        {
+            bool paymentSuccess = false;
+
+
+            return paymentSuccess;
+        }
+
+        private async void btn_PayMono_Click(object sender, RoutedEventArgs e)
+        {
+            string Phone = "0349470340";
+            string Name = "Hoàng Chí Dương";
+            string Email = "";
+            string PayNumber = TotalValue.Text.Trim();
+            string Description = "";
+            MomoQRCodeGenerator momoGenerator = new MomoQRCodeGenerator();
+            string merchantCode = $"2|99|{Phone}|{Name}|{Email}|0|0|{PayNumber}|{Description}";
+            Bitmap momoQRCode = momoGenerator.GenerateMomoQRCode(merchantCode);
+            if (!string.IsNullOrWhiteSpace(TotalValue.Text))
+            {
+                ScanMoMoQR scanQR = new ScanMoMoQR();
+                scanQR.UpdateQRCode(momoQRCode);
+                double windowWidth = 500;
+                double windowHeight = 600; // Tăng chiều cao để chứa nút
+
+                // Tạo Grid để chứa cảnh báo và StackPanel chứa nút
+                Grid grid = new Grid();
+                grid.Width = windowWidth;
+                grid.Height = windowHeight;
+                Window qrCodeWindow = new Window
+                {
+                    Width = windowWidth,
+                    Height = windowHeight,
+                    WindowStyle = WindowStyle.None,
+                    ResizeMode = ResizeMode.NoResize,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    Title = "ScanQR",
+                    Content = grid
+                };
+
+                // Thêm ScanMoMoQR vào Grid
+                grid.Children.Add(scanQR);
+
+                // Tạo Grid để chứa nút
+                Grid buttonGrid = new Grid();
+                buttonGrid.HorizontalAlignment = HorizontalAlignment.Center;
+                buttonGrid.VerticalAlignment = VerticalAlignment.Bottom;
+                buttonGrid.Height = 50; // Đặt chiều cao của lưới nút
+
+                ColumnDefinition column1 = new ColumnDefinition();
+                ColumnDefinition column2 = new ColumnDefinition();
+                column1.Width = new GridLength(1, GridUnitType.Star);
+                column2.Width = new GridLength(1, GridUnitType.Star);
+                buttonGrid.ColumnDefinitions.Add(column1);
+                buttonGrid.ColumnDefinitions.Add(column2);
+
+   
+                Button failButton = new Button();
+                failButton.Content = "Thất bại";
+                failButton.Width = 100; 
+                failButton.Margin = new Thickness(10, 0, 10, 0);
+                failButton.Click += (sender, e) =>
+                {
+                    qrCodeWindow.Close();
+                    MessageBox.Show("QR code quá thời gian. Vui lòng thanh toán lại !!!", "Error", MessageBoxButton.OK);
+                };
+                Button successButton = new Button();
+                successButton.Content = "Thành công";
+                successButton.Width = 100; 
+                successButton.Margin = new Thickness(10, 0, 10, 0); 
+                successButton.Click += (sender, e) =>
+                {
+                    qrCodeWindow.Close(); 
+                };
+                Grid.SetColumn(successButton, 1);
+                Grid.SetColumn(failButton, 0);
+               
+                buttonGrid.Children.Add(failButton);
+                buttonGrid.Children.Add(successButton);
+                grid.Children.Add(buttonGrid);
+
+                qrCodeWindow.Show();
+            }
+
+
+            else
+            {
+                MessageBox.Show("Please enter a valid total price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+
         }
     }
 }
