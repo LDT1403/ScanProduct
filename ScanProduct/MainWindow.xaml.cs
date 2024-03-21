@@ -102,7 +102,9 @@ namespace ScanProduct
                                 inputTextBox.Text = barcodeText;
                                 await _textToSpeed.PlayMp3("../../../SoundScan.mp3");
                                 var product = await getProduct(barcodeText);
+                                if
                                 UpdateListViewWithProduct(product);
+
                                 // productList.Add(product);
                                 isScanning = false;
 
@@ -175,6 +177,12 @@ namespace ScanProduct
                 }
 
             }
+            if (listProduct.Count == 0) {
+                return null;
+            }
+
+
+
             return product;
         }
 
@@ -213,103 +221,109 @@ namespace ScanProduct
 
             return paymentSuccess;
         }
+        private bool IsListViewEmpty()
+        {
+            return productList.Count == 0;
+        }
 
         private async void btn_PayMono_Click(object sender, RoutedEventArgs e)
         {
-             AddOrder();
-            string Phone = "0349470340";
-            string Name = "Hoàng Chí Dương";
-            string Email = "";
-            string PayNumber = TotalValue.Text.Trim();
-            string Description = "";
-            MomoQRCodeGenerator momoGenerator = new MomoQRCodeGenerator();
-            string merchantCode = $"2|99|{Phone}|{Name}|{Email}|0|0|{PayNumber}|{Description}";
-            Bitmap momoQRCode = momoGenerator.GenerateMomoQRCode(merchantCode);
-            if (!string.IsNullOrWhiteSpace(TotalValue.Text))
-            {
-                ScanMoMoQR scanQR = new ScanMoMoQR();
-                scanQR.UpdateQRCode(momoQRCode);
-                double windowWidth = 500;
-                double windowHeight = 600; // Tăng chiều cao để chứa nút
+            //if (IsListViewEmpty())
+            //{
+            //    MessageBox.Show("Vui Lòng Thêm Sản Phẩm", "Giỏ Hàng", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            //else
+            //{
+            //    AddOrder();
+            //    string Phone = "0349470340";
+            //    string Name = "Hoàng Chí Dương";
+            //    string Email = "";
+            //    string PayNumber = TotalValue.Text.Trim();
+            //    string Description = "";
+            //    MomoQRCodeGenerator momoGenerator = new MomoQRCodeGenerator();
+            //    string merchantCode = $"2|99|{Phone}|{Name}|{Email}|0|0|{PayNumber}|{Description}";
+            //    Bitmap momoQRCode = momoGenerator.GenerateMomoQRCode(merchantCode);
+            //    if (!string.IsNullOrWhiteSpace(TotalValue.Text))
+            //    {
+            //        ScanMoMoQR scanQR = new ScanMoMoQR();
+            //        scanQR.UpdateQRCode(momoQRCode);
+            //        double windowWidth = 500;
+            //        double windowHeight = 600; // Tăng chiều cao để chứa nút
 
-                // Tạo Grid để chứa cảnh báo và StackPanel chứa nút
-                Grid grid = new Grid();
-                grid.Width = windowWidth;
-                grid.Height = windowHeight;
-                Window qrCodeWindow = new Window
-                {
-                    Width = windowWidth,
-                    Height = windowHeight,
-                    WindowStyle = WindowStyle.None,
-                    ResizeMode = ResizeMode.NoResize,
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                    Title = "ScanQR",
-                    Content = grid
-                };
+            //        // Tạo Grid để chứa cảnh báo và StackPanel chứa nút
+            //        Grid grid = new Grid();
+            //        grid.Width = windowWidth;
+            //        grid.Height = windowHeight;
+            //        Window qrCodeWindow = new Window
+            //        {
+            //            Width = windowWidth,
+            //            Height = windowHeight,
+            //            WindowStyle = WindowStyle.None,
+            //            ResizeMode = ResizeMode.NoResize,
+            //            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            //            Title = "ScanQR",
+            //            Content = grid
+            //        };
 
-                // Thêm ScanMoMoQR vào Grid
-                grid.Children.Add(scanQR);
+            //        // Thêm ScanMoMoQR vào Grid
+            //        grid.Children.Add(scanQR);
 
-                // Tạo Grid để chứa nút
-                Grid buttonGrid = new Grid();
-                buttonGrid.HorizontalAlignment = HorizontalAlignment.Center;
-                buttonGrid.VerticalAlignment = VerticalAlignment.Bottom;
-                buttonGrid.Height = 50; // Đặt chiều cao của lưới nút
+            //        // Tạo Grid để chứa nút
+            //        Grid buttonGrid = new Grid();
+            //        buttonGrid.HorizontalAlignment = HorizontalAlignment.Center;
+            //        buttonGrid.VerticalAlignment = VerticalAlignment.Bottom;
+            //        buttonGrid.Height = 50; // Đặt chiều cao của lưới nút
 
-                ColumnDefinition column1 = new ColumnDefinition();
-                ColumnDefinition column2 = new ColumnDefinition();
-                column1.Width = new GridLength(1, GridUnitType.Star);
-                column2.Width = new GridLength(1, GridUnitType.Star);
-                buttonGrid.ColumnDefinitions.Add(column1);
-                buttonGrid.ColumnDefinitions.Add(column2);
-
-   
-                Button failButton = new Button();
-                failButton.Content = "Hủy";
-                failButton.Width = 100; 
-                failButton.Margin = new Thickness(10, 0, 10, 0);
-                failButton.Click += (sender, e) =>
-                {
-                    AddPayment("fail");
-                    qrCodeWindow.Close();
-                    Reset();
-                    listView.Items.Refresh();
+            //        ColumnDefinition column1 = new ColumnDefinition();
+            //        ColumnDefinition column2 = new ColumnDefinition();
+            //        column1.Width = new GridLength(1, GridUnitType.Star);
+            //        column2.Width = new GridLength(1, GridUnitType.Star);
+            //        buttonGrid.ColumnDefinitions.Add(column1);
+            //        buttonGrid.ColumnDefinitions.Add(column2);
 
 
-                };
-                Button successButton = new Button();
-                successButton.Content = "Thành công";
-                successButton.Width = 100; 
-                successButton.Margin = new Thickness(10, 0, 10, 0); 
-                successButton.Click += (sender, e) =>
-                {
-                    AddPayment("success");
-                    qrCodeWindow.Close();
-                    Reset();
-                    listView.Items.Refresh();
+            //        Button failButton = new Button();
+            //        failButton.Content = "Hủy";
+            //        failButton.Width = 100;
+            //        failButton.Margin = new Thickness(10, 0, 10, 0);
+            //        failButton.Click += (sender, e) =>
+            //        {
+            //            AddPayment("fail", "MOMO");
+            //            qrCodeWindow.Close();
+            //            Reset();
+            //        };
+            //        Button successButton = new Button();
+            //        successButton.Content = "Thành công";
+            //        successButton.Width = 100;
+            //        successButton.Margin = new Thickness(10, 0, 10, 0);
+            //        successButton.Click += (sender, e) =>
+            //        {
+            //            AddPayment("success", "MOMO");
+            //            qrCodeWindow.Close();
+            //            Reset();
+            //        };
+            //        Grid.SetColumn(successButton, 1);
+            //        Grid.SetColumn(failButton, 0);
 
-                };
-                Grid.SetColumn(successButton, 1);
-                Grid.SetColumn(failButton, 0);
-               
-                buttonGrid.Children.Add(failButton);
-                buttonGrid.Children.Add(successButton);
-                grid.Children.Add(buttonGrid);
+            //        buttonGrid.Children.Add(failButton);
+            //        buttonGrid.Children.Add(successButton);
+            //        grid.Children.Add(buttonGrid);
 
-                qrCodeWindow.Show();
-            }
+            //        qrCodeWindow.Show();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Sai Tổng Tiền", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
 
+            //}
 
-            else
-            {
-                MessageBox.Show("Please enter a valid total price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
 
 
         }
 
-         private void AddOrder()
-         {
+        private void AddOrder()
+        {
             try
             {
                 var service = _sheetService.API();
@@ -328,35 +342,35 @@ namespace ScanProduct
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-           
+
         }
 
         private void AddOrderDetail()
         {
             try
             {
-                var listOrder=loadData("Orders").LastOrDefault();
+                var listOrder = loadData("Orders").LastOrDefault();
                 var orderid = listOrder[0];
-                foreach(var item in productList)
+                foreach (var item in productList)
                 {
                     var service = _sheetService.API();
-                    SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "OrderDetail!A:D");
+                    SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "OrderDetail!A:E");
                     System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
                     ValueRange getRespone = getRequest.Execute();
                     IList<IList<Object>> valuess = getRespone.Values;
-                    var range = $"{"OrderDetail"}!B" + (valuess.Count + 1) + ":D" + (valuess.Count + 1);
+                    var range = $"{"OrderDetail"}!B" + (valuess.Count + 1) + ":E" + (valuess.Count + 1);
                     var valueRange = new ValueRange();
                     var date = DateTime.Now;
-                    valueRange.Values = new List<IList<object>> { new List<object>() { orderid, item.Price, item.ProductId } };
+                    valueRange.Values = new List<IList<object>> { new List<object>() { orderid, item.Price, item.ProductId, item.Quantity } };
                     var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
                     updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
                     var AddResponse = updateRequest.Execute();
                     //ok
-                }              
+                }
             }
             catch (Exception ex)
             {
@@ -365,27 +379,27 @@ namespace ScanProduct
 
         }
 
-        private void AddPayment(string status)
+        private void AddPayment(string status, string method)
         {
             try
             {
                 var listOrder = loadData("Orders").LastOrDefault();
                 var orderid = listOrder[0];
-               
-                    var service = _sheetService.API();
-                    SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "Payment!A:E");
-                    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
-                    ValueRange getRespone = getRequest.Execute();
-                    IList<IList<Object>> valuess = getRespone.Values;
-                    var range = $"{"Payment"}!B" + (valuess.Count + 1) + ":E" + (valuess.Count + 1);
-                    var valueRange = new ValueRange();
-                    var date = DateTime.Now;
-                    valueRange.Values = new List<IList<object>> { new List<object>() { date,orderid,status,TotalValue.Text } };
-                    var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
-                    updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
-                    var AddResponse = updateRequest.Execute();
 
-                
+                var service = _sheetService.API();
+                SpreadsheetsResource.ValuesResource.GetRequest getRequest = service.Spreadsheets.Values.Get("1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", "Payment!A:F");
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender2, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
+                ValueRange getRespone = getRequest.Execute();
+                IList<IList<Object>> valuess = getRespone.Values;
+                var range = $"{"Payment"}!B" + (valuess.Count + 1) + ":F" + (valuess.Count + 1);
+                var valueRange = new ValueRange();
+                var date = DateTime.Now;
+                valueRange.Values = new List<IList<object>> { new List<object>() { date, orderid, status, TotalValue.Text, method } };
+                var updateRequest = service.Spreadsheets.Values.Update(valueRange, "1NdaV8vr3yAyZUX5TstgNLB5UIVngZ8wBNVgvpYqnA3g", range);
+                updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                var AddResponse = updateRequest.Execute();
+
+
             }
             catch (Exception ex)
             {
@@ -395,10 +409,125 @@ namespace ScanProduct
         }
         private void Reset()
         {
-            listView.Items.Remove(this);
+            productList.Clear();
+            listView.Items.Refresh();
             TotalValue.Text = "";
             inputTextBox.Text = "";
+            paymentMethodComboBox.SelectedIndex = 0;
 
         }
+        private void PaymentMethodComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            ComboBoxItem selectedItem = (ComboBoxItem)paymentMethodComboBox.SelectedItem;
+            if (selectedItem != null)
+            {
+
+                string selectedPaymentMethod = selectedItem.Content.ToString();
+                if (IsListViewEmpty() && selectedPaymentMethod != "Chọn Thanh Toán")
+                {
+                    MessageBox.Show("Vui Lòng Thêm Sản Phẩm", "Giỏ Hàng", MessageBoxButton.OK, MessageBoxImage.Information);
+                    paymentMethodComboBox.SelectedIndex = 0;
+                }
+                else
+                {
+                    switch (selectedPaymentMethod)
+                    {
+                        case "Momo":
+                            AddOrder();
+                            string Phone = "0349470340";
+                            string Name = "Hoàng Chí Dương";
+                            string Email = "";
+                            string PayNumber = TotalValue.Text.Trim();
+                            string Description = "";
+                            MomoQRCodeGenerator momoGenerator = new MomoQRCodeGenerator();
+                            string merchantCode = $"2|99|{Phone}|{Name}|{Email}|0|0|{PayNumber}|{Description}";
+                            Bitmap momoQRCode = momoGenerator.GenerateMomoQRCode(merchantCode);
+                            if (!string.IsNullOrWhiteSpace(TotalValue.Text))
+                            {
+                                ScanMoMoQR scanQR = new ScanMoMoQR();
+                                scanQR.UpdateQRCode(momoQRCode);
+                                double windowWidth = 500;
+                                double windowHeight = 600; // Tăng chiều cao để chứa nút
+
+                                // Tạo Grid để chứa cảnh báo và StackPanel chứa nút
+                                Grid grid = new Grid();
+                                grid.Width = windowWidth;
+                                grid.Height = windowHeight;
+                                Window qrCodeWindow = new Window
+                                {
+                                    Width = windowWidth,
+                                    Height = windowHeight,
+                                    WindowStyle = WindowStyle.None,
+                                    ResizeMode = ResizeMode.NoResize,
+                                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                                    Title = "ScanQR",
+                                    Content = grid
+                                };
+
+                                // Thêm ScanMoMoQR vào Grid
+                                grid.Children.Add(scanQR);
+
+                                // Tạo Grid để chứa nút
+                                Grid buttonGrid = new Grid();
+                                buttonGrid.HorizontalAlignment = HorizontalAlignment.Center;
+                                buttonGrid.VerticalAlignment = VerticalAlignment.Bottom;
+                                buttonGrid.Height = 50; // Đặt chiều cao của lưới nút
+
+                                ColumnDefinition column1 = new ColumnDefinition();
+                                ColumnDefinition column2 = new ColumnDefinition();
+                                column1.Width = new GridLength(1, GridUnitType.Star);
+                                column2.Width = new GridLength(1, GridUnitType.Star);
+                                buttonGrid.ColumnDefinitions.Add(column1);
+                                buttonGrid.ColumnDefinitions.Add(column2);
+
+
+                                Button failButton = new Button();
+                                failButton.Content = "Hủy";
+                                failButton.Width = 100;
+                                failButton.Margin = new Thickness(10, 0, 10, 0);
+                                failButton.Click += (sender, e) =>
+                                {
+                                    AddPayment("fail", "MOMO");
+                                    qrCodeWindow.Close();
+                                    Reset();
+                                };
+                                Button successButton = new Button();
+                                successButton.Content = "Thành công";
+                                successButton.Width = 100;
+                                successButton.Margin = new Thickness(10, 0, 10, 0);
+                                successButton.Click += (sender, e) =>
+                                {
+                                    AddPayment("success", "MOMO");
+                                    qrCodeWindow.Close();
+                                    Reset();
+                                };
+                                Grid.SetColumn(successButton, 1);
+                                Grid.SetColumn(failButton, 0);
+
+                                buttonGrid.Children.Add(failButton);
+                                buttonGrid.Children.Add(successButton);
+                                grid.Children.Add(buttonGrid);
+
+                                qrCodeWindow.Show();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sai Tổng Tiền", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+
+                            break;
+                        case "Cash":
+                            AddOrder();
+                            AddPayment("success", "Cash");
+                            Reset();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
     }
 }
