@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ScanProduct
-build_property.ProjectDir = E:\CSD\ScanProduct\ScanProduct\ScanProduct\
+build_property.ProjectDir = D:\SEMESTER 7\PRN221\CayLamROi\ScanProduct\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

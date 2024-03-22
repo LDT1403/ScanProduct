@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScanProduct")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c66209e8f0f6151ad01a40905b478d771155c1a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScanProduct")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScanProduct")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
