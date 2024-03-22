@@ -1825,19 +1825,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\win\\.nuget\\packages\\": {}
+    "C:\\Users\\nguye\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj",
+      "projectUniqueName": "D:\\SEMESTER 7\\PRN221\\CayLamROi\\ScanProduct\\ScanProduct.csproj",
       "projectName": "ScanProduct",
-      "projectPath": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\ScanProduct.csproj",
-      "packagesPath": "C:\\Users\\win\\.nuget\\packages\\",
-      "outputPath": "E:\\CSD\\ScanProduct\\ScanProduct\\ScanProduct\\obj\\",
+      "projectPath": "D:\\SEMESTER 7\\PRN221\\CayLamROi\\ScanProduct\\ScanProduct.csproj",
+      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+      "outputPath": "D:\\SEMESTER 7\\PRN221\\CayLamROi\\ScanProduct\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\win\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1931,7 +1931,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },

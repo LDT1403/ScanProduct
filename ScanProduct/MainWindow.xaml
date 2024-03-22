@@ -21,16 +21,28 @@
             </ListView.View>
         </ListView>
         <TextBox x:Name="TotalValue" HorizontalAlignment="Left" Margin="106,583,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Total " HorizontalAlignment="Left" Margin="59,579,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Btn_Done" Content="Done" HorizontalAlignment="Left" Margin="321,583,0,0" VerticalAlignment="Top" Width="61" Click="Btn_Done_Click"/>
+        <Label Content="Tổng tiền" HorizontalAlignment="Left" Margin="59,579,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Btn_Done" Content="Hoàn tất" HorizontalAlignment="Left" Margin="321,583,0,0" VerticalAlignment="Top" Width="61" Click="Btn_Done_Click"/>
         <Button x:Name="btn_PayMono" Content="Thanh Toán MOMO" HorizontalAlignment="Left" Margin="634,582,0,0" VerticalAlignment="Top" Click="btn_PayMono_Click" Visibility="Collapsed"/>
+        <Label Content="Số điện thoại" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_Phone" HorizontalAlignment="Left" Margin="12,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" PreviewKeyDown="txt_Phone_PreviewKeyDown"/>
+        <Label Content="Đơn hàng: " HorizontalAlignment="Left" Margin="14,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.163,0.156" Width="64"/>
+        <Label x:Name="labelUserName" Content="" HorizontalAlignment="Left" Margin="103,123,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_RegistPhone" HorizontalAlignment="Left" Margin="982,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" PreviewKeyDown="txt_PhoneRegist"/>
+        <Label Content="Đăng ký số điện thoại" HorizontalAlignment="Left" Margin="982,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Tên khách hàng" HorizontalAlignment="Left" Margin="738,10,0,0" VerticalAlignment="Top"/>
 
+        <Button Content="Đăng ký" HorizontalAlignment="Left" Margin="1191,40,0,0" VerticalAlignment="Top" Width="57" Click="btn_Regist"/>
+        <TextBox x:Name="txt_Name" HorizontalAlignment="Left" Margin="738,41,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="178"/>
 
         <ComboBox x:Name="paymentMethodComboBox" HorizontalAlignment="Left" Margin="420,583,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="PaymentMethodComboBox_SelectionChanged" SelectedIndex="0">
             <ComboBoxItem Content="Chọn Thanh Toán" />
             <ComboBoxItem Content="Momo" />
             <ComboBoxItem Content="Cash" />
         </ComboBox>
+        <Label Content="Sử dụng điểm" HorizontalAlignment="Left" Margin="13,525,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_Point" HorizontalAlignment="Left" Margin="106,529,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Button Content="Sử dụng" HorizontalAlignment="Left" Margin="321,529,0,0" VerticalAlignment="Top" Width="61" Click="btn_UserPoint" Visibility="Hidden"/>
 
 
     </Grid>
